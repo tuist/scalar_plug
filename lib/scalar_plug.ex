@@ -1,13 +1,39 @@
 defmodule ScalarPlug do
-  @moduledoc """
-  Documentation for `ScalarPlug`.
-  """
+  @external_resource readme = Path.join([__DIR__, "../README.md"])
 
-  @doc """
-  Hello world.
-  """
+  @moduledoc readme |> File.read!() |> String.split("<!-- MDOC !-->") |> Enum.fetch!(1)
 
-  def init(opts) do
+  @type options :: [
+          path: String.t(),
+          spec_href: String.t(),
+          title: String.t(),
+          og_title: String.t(),
+          url: String.t(),
+          image_url: String.t(),
+          x_handle: String.t(),
+          configuration: map(),
+          additional_head_elements: tuple(),
+          additional_body_elements: tuple()
+        ]
+
+  @doc ~S"""
+  Initializes the plug with the options or a mfa tuple to load the configuration at runtime.
+  """
+  @spec init(opts :: options() | mfa()) :: any()
+  def init(opts) when is_list(opts) do
+    opts |> parse_opts()
+  end
+
+  def init(opts) when is_tuple(opts) do
+    opts
+  end
+
+  def init(opts) when is_function(opts) do
+    opts
+  end
+
+  @spec parse_opts(opts :: options()) :: map()
+  defp parse_opts(opts) do
     path = Keyword.get(opts, :path)
 
     if is_nil(path) do
@@ -21,6 +47,7 @@ defmodule ScalarPlug do
     end
 
     title = Keyword.get(opts, :title, "API Documentation")
+    og_title = Keyword.get(opts, :og_title, title)
     url = Keyword.get(opts, :url)
     image_url = Keyword.get(opts, :image_url)
     x_handle = Keyword.get(opts, :x_handle)
@@ -32,6 +59,7 @@ defmodule ScalarPlug do
       path: path,
       spec_href: spec_href,
       title: title,
+      og_title: og_title,
       url: url,
       image_url: image_url,
       x_handle: x_handle,
@@ -41,10 +69,24 @@ defmodule ScalarPlug do
     }
   end
 
+  @doc ~S"""
+  If the request matches the `path` configuration value, it returns a HTML response with a Scalar setup to load the API documentation.
+  Otherwise it returns the same connection.
+  """
+  @spec call(Plug.Conn.t(), options() | mfa() | fun()) :: Plug.Conn.t()
+  def call(conn, opts) when is_function(opts) do
+    call(conn, opts.() |> parse_opts)
+  end
+
+  def call(conn, {module, function}) do
+    call(conn, apply(module, function, []) |> parse_opts())
+  end
+
   def call(%{request_path: request_path, port: port, host: host, scheme: scheme} = conn, %{
         path: path,
         spec_href: spec_href,
         title: title,
+        og_title: og_title,
         url: url,
         image_url: image_url,
         x_handle: x_handle,
@@ -70,7 +112,7 @@ defmodule ScalarPlug do
       {"meta", [{"name", "viewport"}, {"content", "width=device-width, initial-scale=1"}], []},
       {"meta", [{"property", "og:url"}, {"content", url}], []},
       {"meta", [{"property", "og:type"}, {"content", "website"}], []},
-      {"meta", [{"property", "og:title"}, {"content", title}], []},
+      {"meta", [{"property", "og:title"}, {"content", og_title}], []},
       {"meta", [{"name", "twitter:card"}, {"content", "summary"}], []},
       {"meta", [{"name", "twitter:title"}, {"content", title}], []},
       {"meta", [{"name", "twitter:domain"}, {"content", host}], []},
@@ -120,9 +162,9 @@ defmodule ScalarPlug do
            head
          },
          {
-          "body",
-          [],
-          body
+           "body",
+           [],
+           body
          }
        ]}
     ]
