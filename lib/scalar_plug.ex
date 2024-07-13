@@ -14,34 +14,43 @@ defmodule ScalarPlug do
       raise "The :path option is required for ScalarPlug"
     end
 
-    spec_path = Keyword.get(opts, :spec_path)
+    spec_href = Keyword.get(opts, :spec_href)
 
-    if is_nil(spec_path) do
-      raise "The :spec_path option is required for ScalarPlug"
+    if is_nil(spec_href) do
+      raise "The :spec_href option is required for ScalarPlug"
     end
 
     title = Keyword.get(opts, :title, "API Documentation")
     url = Keyword.get(opts, :url)
     image_url = Keyword.get(opts, :image_url)
     x_handle = Keyword.get(opts, :x_handle)
+    configuration = Keyword.get(opts, :configuration)
+    additional_head_elements = Keyword.get(opts, :additional_head_elements, [])
+    additional_body_elements = Keyword.get(opts, :additional_body_elements, [])
 
     %{
       path: path,
-      spec_path: spec_path,
+      spec_href: spec_href,
       title: title,
       url: url,
       image_url: image_url,
-      x_handle: x_handle
+      x_handle: x_handle,
+      configuration: configuration,
+      additional_head_elements: additional_head_elements,
+      additional_body_elements: additional_body_elements
     }
   end
 
   def call(%{request_path: request_path, port: port, host: host, scheme: scheme} = conn, %{
         path: path,
-        spec_path: spec_path,
+        spec_href: spec_href,
         title: title,
         url: url,
         image_url: image_url,
-        x_handle: x_handle
+        x_handle: x_handle,
+        configuration: configuration,
+        additional_head_elements: additional_head_elements,
+        additional_body_elements: additional_body_elements
       })
       when request_path == path do
     url =
@@ -68,11 +77,14 @@ defmodule ScalarPlug do
       {"meta", [{"name", "twitter:url"}, {"content", url}], []}
     ]
 
-    head = if x_handle do
-      head ++ [{"meta", [{"name", "twitter:site"}, {"content", "@#{x_handle}"}], []}]
-    else
-      head
-    end
+    head =
+      if x_handle do
+        head ++ [{"meta", [{"name", "twitter:site"}, {"content", "@#{x_handle}"}], []}]
+      else
+        head
+      end
+
+    head = head ++ additional_head_elements
 
     head =
       if image_url do
@@ -85,7 +97,19 @@ defmodule ScalarPlug do
         head
       end
 
-    #   <meta name="twitter:card" content="summary" />
+    configuration_json = Jason.encode!(configuration) |> String.replace("\"", "'")
+
+    body = [
+      {"script",
+       [
+         {"id", "api-reference"},
+         {"data-url", spec_href},
+         {"data-configuration", configuration_json}
+       ], []},
+      {"script", [{"src", "https://cdn.jsdelivr.net/npm/@scalar/api-reference"}], []}
+    ]
+
+    body = body ++ additional_body_elements
 
     document = [
       {"html", [],
@@ -94,6 +118,11 @@ defmodule ScalarPlug do
            "head",
            [],
            head
+         },
+         {
+          "body",
+          [],
+          body
          }
        ]}
     ]

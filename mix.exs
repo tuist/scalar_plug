@@ -22,7 +22,8 @@ defmodule ScalarPlug.MixProject do
   defp deps do
     [
       {:plug, "~> 1.16"},
-      {:floki, "~> 0.36.2"}
+      {:floki, "~> 0.36.2"},
+      {:jason, "~> 1.4"}
     ]
   end
 end
