@@ -3,7 +3,7 @@ defmodule ScalarPlug.MixProject do
 
   @description "ScalarPlug is an Elixir plug to integrate Scalar into your Elixir application. When a request URL path matches the path the plug has been configured with, it returns a HTML response initializing Scalar."
   @source_url "https://github.com/tuist/ScalarPlug"
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project do
     [
