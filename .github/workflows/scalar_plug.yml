@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+env:
+  MISE_EXPERIMENTAL: 1
+  
 jobs:
   build:
     name: build
