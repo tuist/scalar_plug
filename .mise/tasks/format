@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# mise description="Formats the project"
+MIX_EXS=$MISE_PROJECT_ROOT/mix.exs mix format
