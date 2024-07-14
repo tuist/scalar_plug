@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# mise description="Installs the project dependencies"
+MIX_EXS=$MISE_PROJECT_ROOT/mix.exs mix deps.get
