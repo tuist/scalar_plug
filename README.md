@@ -36,7 +36,7 @@ You can add `ScalarPlug` as a plug to your project passing the configuration opt
 ### Compile-time configuration
 
 ```elixir
-plug ScalarPlug, path: "/api/docs", spec_path: "/api/spec", title: "API Documentation"
+plug ScalarPlug, path: "/api/docs", spec_href: "/api/spec", title: "API Documentation"
 ```
 
 ### MFA runtime configuration
@@ -48,7 +48,7 @@ plug ScalarPlug, {ConfigurationModule, :scalar_config}
 ### Function runtime configuration
 
 ```elixir
-plug ScalarPlug, fn -> [path: "/api/docs", spec_path: "/api/spec", title: "API Documentation"] end
+plug ScalarPlug, fn -> [path: "/api/docs", spec_href: "/api/spec", title: "API Documentation"] end
 ```
 
 <!-- tabs-close -->

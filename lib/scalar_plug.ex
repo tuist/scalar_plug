@@ -51,7 +51,7 @@ defmodule ScalarPlug do
     url = Keyword.get(opts, :url)
     image_url = Keyword.get(opts, :image_url)
     x_handle = Keyword.get(opts, :x_handle)
-    configuration = Keyword.get(opts, :configuration)
+    configuration = Keyword.get(opts, :configuration, %{})
     additional_head_elements = Keyword.get(opts, :additional_head_elements, [])
     additional_body_elements = Keyword.get(opts, :additional_body_elements, [])
 
