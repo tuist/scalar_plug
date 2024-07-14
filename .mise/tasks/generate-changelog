@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# mise description="Generates the CHANGELOG.md"
+
+git cliff --output $MISE_PROJECT_ROOT/CHANGELOG.md
