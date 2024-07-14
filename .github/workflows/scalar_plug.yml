@@ -20,6 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
+      - run: mise run install
       - run: mise run build
 
       
