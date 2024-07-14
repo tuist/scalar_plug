@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+env:
+  MISE_EXPERIMENTAL: 1
+
+jobs:
+  continuous:
+    name: continuous
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - run: mise run install
+      - run: mise run build
+      - name: Extract bumped version
+        id: bump_version
+        run: echo "bumped_version=$(git cliff --bumped-version)" >> $GITHUB_OUTPUT
+      - name: Generate changelog
+        run: mise run generate-changelog
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.bump_version.outputs.bumped_version }}
+          release_name: Release v${{ steps.bump_version.outputs.bumped_version }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
