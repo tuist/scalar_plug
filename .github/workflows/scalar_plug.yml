@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: jdx/mise-action@v2
       - run: mise run install
       - run: mise run build
@@ -30,7 +30,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: jdx/mise-action@v2
       - run: mise run install
       - run: mise run test
@@ -42,7 +42,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - uses: jdx/mise-action@v2
       - run: mise run install
       - run: mise run lint
