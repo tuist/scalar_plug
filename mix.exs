@@ -55,7 +55,7 @@ defmodule ScalarPlug.MixProject do
       {:plug, "~> 1.20"},
       {:floki, "~> 0.38"},
       {:jason, "~> 1.4"},
-      {:ex_doc, "~> 0.31", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.40", only: :dev, runtime: false}
     ]
   end
 end
