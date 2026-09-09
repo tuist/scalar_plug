@@ -52,7 +52,7 @@ defmodule ScalarPlug.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug, "~> 1.16"},
+      {:plug, "~> 1.20"},
       {:floki, "~> 0.38"},
       {:jason, "~> 1.4"},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false}

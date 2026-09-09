@@ -1,7 +1,8 @@
 defmodule ScalarPlugTest do
   use ExUnit.Case
   alias ScalarPlug
-  use Plug.Test
+  import Plug.Test
+  import Plug.Conn
   doctest ScalarPlug
 
   setup do
