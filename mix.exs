@@ -53,7 +53,7 @@ defmodule ScalarPlug.MixProject do
   defp deps do
     [
       {:plug, "~> 1.16"},
-      {:floki, "~> 0.36.2"},
+      {:floki, "~> 0.38"},
       {:jason, "~> 1.4"},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false}
     ]
