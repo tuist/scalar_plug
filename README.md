@@ -1,5 +1,7 @@
 # ScalarPlug
 
+> **Note:** This is a maintained fork of [tuist/scalar_plug](https://github.com/tuist/scalar_plug), originally created by [Pedro Piñera](https://github.com/pepicrft) and [Marek Fořt](https://github.com/fortmarek). The upstream package appears to be unmaintained — open PRs and issues have gone unaddressed for an extended period. This fork exists to keep dependencies up to date and accept community contributions. A PR has been submitted upstream; if it becomes active again, consider switching back.
+
 <!-- MDOC !-->
 
 `ScalarPlug` is an Elixir plug to integrate [Scalar](https://github.com/scalar/scalar) into your Elixir application. When a request URL path matches the path the plug has been configured with, it returns a HTML response initializing Scalar.
@@ -11,7 +13,7 @@ The package is [available in Hex](https://hex.pm/docs/publish) and you can insta
 ```elixir
 def deps do
   [
-    {:scalar_plug, "~> 0.1.0"}
+    {:scalar_api_plug, "~> 0.3.0"}
   ]
 end
 ```

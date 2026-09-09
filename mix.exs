@@ -2,30 +2,30 @@ defmodule ScalarPlug.MixProject do
   use Mix.Project
 
   @description "ScalarPlug is an Elixir plug to integrate Scalar into your Elixir application. When a request URL path matches the path the plug has been configured with, it returns a HTML response initializing Scalar."
-  @source_url "https://github.com/tuist/ScalarPlug"
-  @version "0.2.0"
+  @source_url "https://github.com/Aroy-Art/scalar_plug"
+  @version "0.3.0"
 
   def project do
     [
-      app: :scalar_plug,
+      app: :scalar_api_plug,
       version: @version,
       description: @description,
       elixir: "~> 1.17",
       package: package(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      source_url: "https://github.com/tuist/ScalarPlug",
-      homepage_url: "https://github.com/tuist/ScalarPlug",
+      source_url: @source_url,
+      homepage_url: @source_url,
       docs: docs()
     ]
   end
 
   defp package() do
     %{
-      maintainers: ["Pedro Piñera", "Marek Fořt"],
+      maintainers: ["Aroy-Art"],
       licenses: ["MIT"],
       links: %{
-        "Changelog" => "https://hexdocs.pm/ScalarPlug/changelog.html",
+        "Changelog" => "https://hexdocs.pm/scalar_api_plug/changelog.html",
         "GitHub" => @source_url
       }
     }
@@ -38,7 +38,7 @@ defmodule ScalarPlug.MixProject do
       source_ref: "v#{@version}",
       extras: ["CHANGELOG.md", {:"README.md", [title: "Overview"]}],
       main: "readme",
-      authors: ["pedro@tuist.io", "marek@tuist.io"]
+      authors: ["aroy-art@pm.me"]
     ]
   end
 
